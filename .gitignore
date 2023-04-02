@@ -6,6 +6,11 @@ __pycache__/
 # C extensions
 *.so
 
+# executables from my retarded way of doing things
+a.*
+*.out
+*.exe
+
 # Distribution / packaging
 .Python
 build/
