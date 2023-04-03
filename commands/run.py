@@ -5,10 +5,12 @@ import os
 import subprocess
 import time
 import threading
-import psutil
 
+#import psutil
+
+"""
 def find_a(exe: str, return_arr):
-    found = False;
+    found = false;
     while not found:
         if return_arr[1] < 0:
             return
@@ -20,6 +22,7 @@ def find_a(exe: str, return_arr):
     a_proc_mem = a_proc.memory_full_info().uss;
     return_arr[0] = a_proc_mem;
     return
+"""
 
 def write_from_source(language:str, source:str):
     source_file = os.path.join(os.getcwd(), "compiled", "source.{0}".format(language));
@@ -123,17 +126,17 @@ async def run(ctx, language: str, *, code=None):
             error.title = "Compilation not successful";
             error.set_footer(text=f"Compile time : {compile_time}s");
             error.color = discord.Color.red();
-            error.add_field(name="stderr :", value=f"```{compile_process.stderr}```");
+            error.add_field(name="stderr :", value=f"```{compile_process.stderr} ```");
             stdout = compile_process.stdout;
             if stdout != None:
-                error.add_field(name="stdout :", value=f"```{compile_process.stderr}```");
+                error.add_field(name="stdout :", value=f"```{compile_process.stderr} ```");
             await ctx.send(embed=error);
         else:
             # Python is interpreted
             if language == "py":
                 output.title = "Running completed";
                 output.color = discord.Color.green();
-                output.add_field(name="Output:", value=f"```{compile_process.stdout}```");
+                output.add_field(name="Output:", value=f"```{compile_process.stdout} ```");
                 output.set_footer(text=f"Runtime : {compile_time}s\nMemory : KB");
                 await ctx.send(embed=output);
                 return 0;
@@ -146,9 +149,9 @@ async def run(ctx, language: str, *, code=None):
                 file = "a.out";
                 command = "./" + file;
             memory = [0, 1];
-            pid = threading.Thread(target=find_a, args=[file, memory],daemon=True);
+            #pid = threading.Thread(target=find_a, args=[file, memory],daemon=True);
             try:
-                pid.start();
+                #pid.start();
                 prev_time = time.time();
                 run_process = subprocess.run(command, stderr=subprocess.PIPE, text=True, timeout=45, stdout=subprocess.PIPE);
                 run_time = time.time() - prev_time;
@@ -166,7 +169,7 @@ async def run(ctx, language: str, *, code=None):
                 else:
                     output.description = "Running completed";
                     output.color = discord.Color.green();
-                    output.add_field(name="Output :",value=f"```{run_process.stdout}```");
+                    output.add_field(name="Output :",value=f"```{run_process.stdout} ```");
                     if memory[0] == 0:
                         membytes = "-";
                     else:
@@ -186,7 +189,7 @@ async def run(ctx, language: str, *, code=None):
                 error_str = str(e);
                 error = discord.Embed();
                 error.title = "Running failed!";
-                error.add_field(name="Reason :", value=f"```{error_str}```");
+                error.add_field(name="Reason :", value=f"```{error_str} ```");
                 error.color = discord.Color.red();
                 await ctx.send(embed=error);
                 return -1;
@@ -202,7 +205,7 @@ async def run(ctx, language: str, *, code=None):
         error.title = "Compilation failed";
         error_str = str(e);
         error.color = discord.Color.red();
-        error.add_field(name="Reason :", value=f"```{error_str}```");
+        error.add_field(name="Reason :", value=f"```{error_str} ```");
         await ctx.send(embed=error);
     finally:
         return -1;

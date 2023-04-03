@@ -56,7 +56,7 @@ async def on_command_error(ctx, error):
     #if isinstance(error, commands.CommandNotFound): 
     #print(str(ctx.author) + " made an error : " + str(error));
 
-status = cycle([";help", "prefix is ;"]);
+status = cycle([f"{PREFIX}help", f"my prefix is `{PREFIX}`"]);
 @tasks.loop(seconds=8)
 async def change_status():
     await client.change_presence(activity=discord.Game(next(status)));

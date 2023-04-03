@@ -11,6 +11,9 @@ a.*
 *.out
 *.exe
 
+# secret because i keep messing things up
+secret.json
+
 # Distribution / packaging
 .Python
 build/
